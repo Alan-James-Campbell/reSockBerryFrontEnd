@@ -4,9 +4,6 @@ import axios from 'axios'
 const ENDPOINT = 'http://127.0.0.1:4001'
 const socket = socketIOClient(ENDPOINT)
 
-
-
-
 const App = () => {
   const [ledStatus, setLedStatus ] = useState(false)
   
@@ -20,17 +17,33 @@ const App = () => {
 
   return (
     <div>
-      <h1>{ledStatus ? 'on' : 'off'}</h1>
+      <h1>{ledStatus === 'on' ? 'on' : 'off'}</h1>
       <button 
         onClick={e => {
-          socket.emit('LED-STATUS-CHANGE', true)
+          // axios.get('http://localhost:4001/api/led/test')
+          // socket.emit('LED-STATUS-CHANGE', true)
+          axios.post('api/led/status', {status: 'on'})
+          .then(response => {
+            console.log(response)
+          })
+          .catch(err => {
+            console.log(err)
+          })
         }}
       >
         turn on
       </button>
       <button 
         onClick={e => {
-          socket.emit('LED-STATUS-CHANGE', false)
+          // axios.post('http://localhost:4001/api/led/status', {status: 'off'})
+          // socket.emit('LED-STATUS-CHANGE', false)
+          axios.post('api/led/status', {status: 'off'})
+          .then(response => {
+            console.log(response)
+          })
+          .catch(err => {
+            console.log(err)
+          })
         }}
       >
         turn off
